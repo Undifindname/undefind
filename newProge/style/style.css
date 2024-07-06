@@ -1,13 +1,4 @@
 .container-fluid {
-    background-image:linear-gradient(rgb(255, 162, 0),rgb(198, 246, 6),rgb(0, 255, 123),rgb(0, 213, 255),rgba(221, 64, 198, 0.667)) ;
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-    position: relative;.container-fluid {
     background-image: linear-gradient(rgb(255, 162, 0), rgb(198, 246, 6), rgb(0, 255, 123), rgb(0, 213, 255), rgba(221, 64, 198, 0.667));
     min-height: 100vh;
     width: 100%;    /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
@@ -75,24 +66,4 @@ body {
     }
 
     
-}
-}
-.img {
-    width: 300px;
-    height: 450px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    border:none;
-}
-h1 {
-    text-align: center;
-    padding-bottom: 20px;
-    margin-bottom: 0;
-    width: 100% !important;
-}
-
-@media screen and (max-width:480px) {
-    .img {
-        width: 100%;
-    }  
 }
