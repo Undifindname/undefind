@@ -7,7 +7,75 @@
     justify-content: center;
     align-items: center;
     padding: 20px 0;
-    position: relative;
+    position: relative;.container-fluid {
+    background-image: linear-gradient(rgb(255, 162, 0), rgb(198, 246, 6), rgb(0, 255, 123), rgb(0, 213, 255), rgba(221, 64, 198, 0.667));
+    min-height: 100vh;
+    width: 100%;    /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
+    padding: 20px 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    justify-items: center; /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
+}
+
+.img {
+    width: 270px;
+    height: 450px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    border: none;
+
+
+}
+
+h1 {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 100% !important;
+}
+body {
+    scrollbar-width: none; /* إخفاء شريط التمرير في Firefox */
+}
+
+@media screen and (max-width:1140px) {
+    .img {
+        width: 90%;
+    }
+    .grid-container {
+        
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width:870px) {
+
+    .img {
+        width: 90%;
+    }
+    .grid-container {
+        
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media screen and (max-width:570px) {
+    .img {
+        width: 80%;
+    }
+
+    .grid-container {
+        
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    
+}
 }
 .img {
     width: 300px;
