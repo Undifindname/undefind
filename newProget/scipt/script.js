@@ -1,5 +1,5 @@
 let container = document.querySelector('#container')
-for (let index = 1; index < 26; index++) {
+for (let index = 1; index < 27; index++) {
     let img = document.createElement('img');
     img.src = `images/${index}.jpg`
     img.classList = 'img'
