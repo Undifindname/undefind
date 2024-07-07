@@ -1,5 +1,6 @@
 let container = document.querySelector('#container')
 async function fetchImagesFromUl(url, ulId, folderName = 'images') {
+    const imgUrls = [];
     try {
         const response = await fetch(url);
         const text = await response.text();
@@ -13,8 +14,8 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
         }
 
         const imgTags = ulElement.querySelectorAll('img');
-        const imgUrls = [];
-       imgTags.forEach(img => {
+
+        imgTags.forEach(img => {
             const imgUrl = img.getAttribute('data-src');
             const imgAlt = img.getAttribute('alt');
             const imgwidth = img.getAttribute('width');
@@ -23,33 +24,82 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
             if (imgUrl && imgAlt) {
                 let infoImg = {
                     src: imgUrl,
-                    alt: imgAlt,
-                    height: imgheight
+                    alt: imgAlt
                 }
                 imgUrls.push(infoImg);
             }
         });
+
         container.innerHTML = ''
-        imgUrls.forEach(imgUrl => {
-            let img = document.createElement('img');
-            img.src = imgUrl.src
-            img.alt = imgUrl.alt
-            img.style.height = imgUrl.height
-            img.alt = imgUrl.alt
-            img.classList = 'img'
-            container.appendChild(img)
-        });
-        addEventListenerImage()
+        
+            imgUrls.forEach(imgUrl => {
+                let img = document.createElement('img');
+                img.src = imgUrl.src
+                img.alt = imgUrl.alt
+                img.alt = imgUrl.alt
+                img.classList = 'img'
+                container.appendChild(img)
+            });
+            addEventListenerImage()
+        
+
+
     } catch (error) {
         console.error(`Failed to fetch the page: ${error}`);
     }
 }
-
-let categorie =''
-
-
-// مثال على استخدام الدالة
+let categorie = ''
 fetchImagesFromUl('https://www.pornpics.de/', 'tiles');
+
+
+let btns = document.querySelectorAll('.navbar-nav .btn')
+let home = document.querySelector('#home')
+let home2 = document.querySelector('#home2')
+
+btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        let content = btn.innerText;
+        categorie = content
+        fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
+
+    })
+})
+
+home.addEventListener('click', () => {
+    fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
+})
+home2.addEventListener('click', () => {
+    fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
+})
+
+function addEventListenerImage() {
+    setTimeout(function () {
+        let imgs = document.querySelectorAll('img')
+
+        imgs.forEach(img => {
+            img.addEventListener('click', () => {
+                let content = img.alt;
+                mored(content, img.src)
+            })
+        })
+    }, 1000)
+    // fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
+}
+
+function mored(alt, src) {
+    let newAlt = alt.toLowerCase()
+    if (categorie != '') {
+        let idimg = src.split('/')[6]
+        newAlt = newAlt.replace(/ /g, '-');
+        let identifienrIMG = newAlt + '-' + idimg
+        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}/`, 'tiles');
+    } else {
+        let newalt = newAlt.split(' ')[0]
+        categorie = newalt
+        let url = `https://www.pornpics.de/${newalt}/`
+        fetchImagesFromUl(url, 'tiles', '', 'false');
+    }
+}
 window.addEventListener('load', function () {
     let scrollY = sessionStorage.getItem('scrolY')
     if (scrollY != null) {
@@ -58,47 +108,4 @@ window.addEventListener('load', function () {
 })
 window.addEventListener('scroll', function () {
     sessionStorage.setItem('scrolY', this.scrollY)
-})
-
-let btns = document.querySelectorAll('.navbar-nav .btn')
-
-btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        let content = btn.innerText;
-        categorie = content
-        console.log(categorie);
-        fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
-
-    })
-})
-
-function addEventListenerImage() {
-    setTimeout(function () {
-        let imgs = document.querySelectorAll('img')
-       
-        imgs.forEach(img => {
-            img.addEventListener('click', () => {
-                let content = img.alt;
-                mored(content,img.src)
-            })
-        })
-    }, 1000)
-    // fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
-}
-function mored(alt,src) {
-    let newAlt = alt.toLowerCase()
-    let idimg = src.split('/')[6]
-    newAlt = newAlt.replace(/ /g, '-');
-    let identifienrIMG =newAlt+'-'+idimg
-    if(categorie!=''){
-        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}/`, 'tiles');
-    }
-    
-}
-
-
-let home = document.querySelector('#home')
-
-home.addEventListener('click', () => {
-    fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
 })
