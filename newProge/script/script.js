@@ -1,6 +1,5 @@
 let container = document.querySelector('#container')
 async function fetchImagesFromUl(url, ulId, folderName = 'images') {
-     window.scrollTo(0, 0)
     const imgUrls = [];
     try {
         const response = await fetch(url);
@@ -23,6 +22,8 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
             const imgheight = img.getAttribute('height');
 
             if (imgUrl && imgAlt) {
+               window.scrollTo(0, 0)
+                 
                 let infoImg = {
                     src: imgUrl,
                     alt: imgAlt,
