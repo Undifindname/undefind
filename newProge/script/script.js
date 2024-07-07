@@ -66,9 +66,11 @@ btns.forEach(btn => {
 })
 
 home.addEventListener('click', () => {
+    categorie = ''
     fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
 })
 home2.addEventListener('click', () => {
+    categorie = ''
     fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
 })
 
