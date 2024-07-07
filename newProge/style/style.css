@@ -1,19 +1,22 @@
 .container-IMG {
-    background-image: linear-gradient(rgb(255, 162, 0), rgb(198, 246, 6), rgb(0, 255, 123), rgb(0, 213, 255), rgba(221, 64, 198, 0.667));
+    background-color: #FFDEE9;
+    background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     min-height: 100vh;
-    width: 100%;    /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
+    width: 100%;
     padding: 20px 0;
- 
 }
 
 .grid-container {
-
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     word-wrap: break-word;
     justify-content: space-evenly;
     align-items: start;
+    position: relative;
 }
 
 .img {
@@ -22,9 +25,6 @@
     border-radius: 5px;
     margin-bottom: 5px;
     border: none;
-    
-
-
 }
 
 h1 {
@@ -35,10 +35,22 @@ h1 {
     font-weight: bold;
     width: 100% !important;
 }
+
 body {
-    scrollbar-width: none; /* إخفاء شريط التمرير في Firefox */
+    scrollbar-width: none;
 }
 
+.previus {
+    position: sticky;
+    top: 95vh;
+    z-index: 100 !important;
+}
+
+.btn-previus {
+    opacity: 0;
+    position: absolute;
+
+}
 
 @media screen and (max-width:1140px) {
     .img {
@@ -47,15 +59,13 @@ body {
 }
 
 @media screen and (max-width:870px) {
-
     .img {
         width: 90%;
     }
-  
 }
+
 @media screen and (max-width:570px) {
     .img {
         width: 80%;
     }
-    
 }
