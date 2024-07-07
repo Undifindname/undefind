@@ -16,21 +16,32 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
         const imgUrls = [];
         imgTags.forEach(img => {
             const imgUrl = img.getAttribute('data-src');
-            if (imgUrl) {
-                imgUrls.push(imgUrl);
+            const imgAlt = img.getAttribute('alt');
+
+            if (imgUrl && imgAlt) {
+                let infoImg = {
+                    src: imgUrl,
+                    alt: imgAlt
+                }
+                imgUrls.push(infoImg);
             }
         });
         container.innerHTML = ''
         imgUrls.forEach(imgUrl => {
             let img = document.createElement('img');
-            img.src = imgUrl
+            img.src = imgUrl.src
+            img.alt = imgUrl.alt
             img.classList = 'img'
             container.appendChild(img)
         });
+        addEventListenerImage()
     } catch (error) {
         console.error(`Failed to fetch the page: ${error}`);
     }
 }
+
+let categorie =''
+
 
 // مثال على استخدام الدالة
 fetchImagesFromUl('https://www.pornpics.de/', 'tiles');
@@ -49,11 +60,37 @@ let btns = document.querySelectorAll('.navbar-nav .btn')
 btns.forEach(btn => {
     btn.addEventListener('click', () => {
         let content = btn.innerText;
+        categorie = content
+        console.log(categorie);
         fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
-
 
     })
 })
+
+function addEventListenerImage() {
+    setTimeout(function () {
+        let imgs = document.querySelectorAll('img')
+       
+        imgs.forEach(img => {
+            img.addEventListener('click', () => {
+                let content = img.alt;
+                mored(content,img.src)
+            })
+        })
+    }, 1000)
+    // fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
+}
+function mored(alt,src) {
+    let newAlt = alt.toLowerCase()
+    let idimg = src.split('/')[6]
+    newAlt = newAlt.replace(/ /g, '-');
+    let identifienrIMG =newAlt+'-'+idimg
+    if(categorie!=''){
+        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}/`, 'tiles');
+    }
+    
+}
+
 
 let home = document.querySelector('#home')
 
