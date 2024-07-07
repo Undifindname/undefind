@@ -14,14 +14,18 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
 
         const imgTags = ulElement.querySelectorAll('img');
         const imgUrls = [];
-        imgTags.forEach(img => {
+       imgTags.forEach(img => {
             const imgUrl = img.getAttribute('data-src');
             const imgAlt = img.getAttribute('alt');
+            const imgwidth = img.getAttribute('width');
+            const imgheight = img.getAttribute('height');
 
             if (imgUrl && imgAlt) {
                 let infoImg = {
                     src: imgUrl,
-                    alt: imgAlt
+                    alt: imgAlt,
+                    width: imgwidth,
+                    height: imgheight,
                 }
                 imgUrls.push(infoImg);
             }
@@ -30,6 +34,9 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
         imgUrls.forEach(imgUrl => {
             let img = document.createElement('img');
             img.src = imgUrl.src
+            img.alt = imgUrl.alt
+            img.style.width = imgUrl.width
+            img.style.height = imgUrl.height
             img.alt = imgUrl.alt
             img.classList = 'img'
             container.appendChild(img)
