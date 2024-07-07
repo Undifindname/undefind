@@ -1,5 +1,6 @@
 let container = document.querySelector('#container')
 async function fetchImagesFromUl(url, ulId, folderName = 'images') {
+     window.scrollTo(0, 0)
     const imgUrls = [];
     try {
         const response = await fetch(url);
