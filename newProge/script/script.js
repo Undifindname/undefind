@@ -20,9 +20,8 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
                 imgUrls.push(imgUrl);
             }
         });
-
+        container.innerHTML = ''
         imgUrls.forEach(imgUrl => {
-            console.log(imgUrl);
             let img = document.createElement('img');
             img.src = imgUrl
             img.classList = 'img'
@@ -35,12 +34,29 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
 
 // مثال على استخدام الدالة
 fetchImagesFromUl('https://www.pornpics.de/', 'tiles');
-window.addEventListener('load',function(){
+window.addEventListener('load', function () {
     let scrollY = sessionStorage.getItem('scrolY')
-    if(scrollY != null){
-        this.scrollTo(0,scrollY)
+    if (scrollY != null) {
+        this.scrollTo(0, scrollY)
     }
 })
-window.addEventListener('scroll',function(){
-     sessionStorage.setItem('scrolY',this.scrollY)
+window.addEventListener('scroll', function () {
+    sessionStorage.setItem('scrolY', this.scrollY)
+})
+
+let btns = document.querySelectorAll('.navbar-nav .btn')
+
+btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        let content = btn.innerText;
+        fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'tiles');
+
+
+    })
+})
+
+let home = document.querySelector('#home')
+
+home.addEventListener('click', () => {
+    fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
 })
