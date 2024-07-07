@@ -10,7 +10,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     width: 100%;
-    justify-items: center; /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
+    justify-items: start; /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
 }
 
 .img {
@@ -18,7 +18,7 @@
     height: 450px; */
      width: 270px;
     border-radius: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     border: none;
 
 
