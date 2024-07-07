@@ -2,8 +2,11 @@ let container = document.querySelector('#container')
 const liens = []
 let previus = document.querySelector('#previus')
 let btnPrevius = document.querySelector('.btn-previus')
+let description = document.querySelector('#description')
 
-async function fetchImagesFromUl(url, ulId, folderName = 'images') {
+
+async function fetchImagesFromUl(url, ulId, acture = '') {
+    
 
     liens.push(url)
     setScroll()
@@ -16,6 +19,10 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
     }
     if (liens.length >= 3) {
         window.scrollTo(0, 0)
+    }
+    if(acture==''){
+        description.innerText=''
+
     }
     const imgUrls = [];
     try {
@@ -72,6 +79,7 @@ btns.forEach(btn => {
     })
 })
 home.addEventListener('click', () => {
+    liens.splice(0,liens.length)
     categorie = ''
     fetchImagesFromUl(`https://www.pornpics.de/`, 'wookmark-initialised');
 })
@@ -99,11 +107,11 @@ function mored(alt, src) {
     let newAlt = alt.toLowerCase()
     if (categorie != '') {
         let idimg = src.split('/')[6]
+        description.innerText = alt
         newAlt = newAlt.replace(/ /g, '-');
         newAlt = newAlt.replace(/,/g, '');
-        
         let identifienrIMG = newAlt + '-' + idimg
-        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}/`, 'wookmark-initialised');
+        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}`, 'wookmark-initialised','acture');
     } else {
         let newalt = newAlt.split(' ')[0]
         categorie = newalt
