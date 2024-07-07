@@ -95,5 +95,6 @@ function mored(alt,src) {
 let home = document.querySelector('#home')
 
 home.addEventListener('click', () => {
+    categorie=''
     fetchImagesFromUl(`https://www.pornpics.de/`, 'tiles');
 })
