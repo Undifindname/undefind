@@ -34,11 +34,6 @@ h1 {
 body {
     scrollbar-width: none; /* إخفاء شريط التمرير في Firefox */
 }
-.navbar{
-    position: fixed !important;
-    width: 100% !important;
-    
-}
 
 @media screen and (max-width:1140px) {
     .img {
