@@ -25,7 +25,9 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
             if (imgUrl && imgAlt) {
                 let infoImg = {
                     src: imgUrl,
-                    alt: imgAlt
+                    alt: imgAlt,
+                    width: imgwidth,
+                    height: imgheight,
                 }
                 imgUrls.push(infoImg);
             }
@@ -38,6 +40,8 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
                 img.src = imgUrl.src
                 img.alt = imgUrl.alt
                 img.alt = imgUrl.alt
+                 img.style.width = imgUrl.width+'px'
+                img.style.height = imgUrl.height+'px'
                 img.classList = 'img'
                 container.appendChild(img)
             });
