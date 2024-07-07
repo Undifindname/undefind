@@ -24,8 +24,7 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
                 let infoImg = {
                     src: imgUrl,
                     alt: imgAlt,
-                    width: imgwidth,
-                    height: imgheight,
+                    height: imgheight
                 }
                 imgUrls.push(infoImg);
             }
@@ -35,8 +34,7 @@ async function fetchImagesFromUl(url, ulId, folderName = 'images') {
             let img = document.createElement('img');
             img.src = imgUrl.src
             img.alt = imgUrl.alt
-            img.style.width = imgUrl.width-100
-            img.style.height = imgUrl.height-100
+            img.style.height = imgUrl.height
             img.alt = imgUrl.alt
             img.classList = 'img'
             container.appendChild(img)
