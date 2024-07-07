@@ -62,7 +62,7 @@ body {
 }
 @media screen and (max-width:570px) {
     .img {
-        width: 80%;
+        width: 95%;
     }
 
     .grid-container {
