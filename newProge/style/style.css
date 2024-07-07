@@ -1,4 +1,4 @@
-.container-fluid {
+.container-IMG {
     background-image: linear-gradient(rgb(255, 162, 0), rgb(198, 246, 6), rgb(0, 255, 123), rgb(0, 213, 255), rgba(221, 64, 198, 0.667));
     min-height: 100vh;
     width: 100%;    /* لإضافة المزيد من التحكم في محاذاة العناصر داخل الشبكة */
@@ -26,13 +26,18 @@
 h1 {
     text-align: center;
     padding-bottom: 20px;
-    margin-bottom: 20px;
+    margin: 30px 0;
     text-transform: uppercase;
     font-weight: bold;
     width: 100% !important;
 }
 body {
     scrollbar-width: none; /* إخفاء شريط التمرير في Firefox */
+}
+.navbar{
+    position: fixed !important;
+    width: 100% !important;
+    
 }
 
 @media screen and (max-width:1140px) {
