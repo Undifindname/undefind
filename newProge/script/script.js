@@ -3,13 +3,14 @@ const liens = []
 let previus = document.querySelector('#previus')
 let btnPrevius = document.querySelector('.btn-previus')
 let description = document.querySelector('#description')
-
-
+let sx = []
+let lengthTab1 =0
 async function fetchImagesFromUl(url, ulId, acture = '') {
-    
+
 
     liens.push(url)
-    setScroll()
+
+    let lengthTab2 = liens.length
     if (liens.length >= 2) {
         btnPrevius.style.opacity = 1
         btnPrevius.style.position = 'relative'
@@ -17,11 +18,19 @@ async function fetchImagesFromUl(url, ulId, acture = '') {
         btnPrevius.style.opacity = 0
         btnPrevius.style.position = 'absolute'
     }
-    if (liens.length >= 3) {
+    if (lengthTab1 > lengthTab2) {
+
+        window.scrollTo(0, sx[sx.length-1])
+        sx.splice(sx.length-1,1)
+
+    } else {
+        sx.push(window.scrollY)
         window.scrollTo(0, 0)
+
+
     }
-    if(acture==''){
-        description.innerText=''
+    if (acture == '') {
+        description.innerText = ''
 
     }
     const imgUrls = [];
@@ -79,12 +88,14 @@ btns.forEach(btn => {
     })
 })
 home.addEventListener('click', () => {
-    liens.splice(0,liens.length)
+    liens.splice(0, liens.length)
     categorie = ''
     fetchImagesFromUl(`https://www.pornpics.de/`, 'wookmark-initialised');
 })
 previus.addEventListener('click', () => {
     categorie = ''
+    lengthTab1 = liens.length
+
     let index = liens.length - 2
     let Nurl = liens[index]
     liens.splice(index, 2)
@@ -111,7 +122,7 @@ function mored(alt, src) {
         newAlt = newAlt.replace(/ /g, '-');
         newAlt = newAlt.replace(/,/g, '');
         let identifienrIMG = newAlt + '-' + idimg
-        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}`, 'wookmark-initialised','acture');
+        fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}`, 'wookmark-initialised', 'acture');
     } else {
         let newalt = newAlt.split(' ')[0]
         categorie = newalt
@@ -120,25 +131,11 @@ function mored(alt, src) {
     }
 }
 
-function setScroll() {
-    let scrollYy = 0;
-    if (scrollYy > 0) {
-        window.scrollTo(0, scrollYy)
-        console.log(scrollYy);
-        scrollYy = 0
-    }
-    if (liens.length == 3) {
-        let scrollY = sessionStorage.getItem('scrolY')
-        if (scrollY != null) {
-            scrollYy = scrollY
-            
-        }
-    }
-}
+
 window.addEventListener('load', function () {
-    let scrollY = sessionStorage.getItem('scrolY')
-    if (scrollY != null) {
-        this.scrollTo(0, scrollY)
+    let scrollYY = sessionStorage.getItem('scrolY')
+    if (scrollYY != null) {
+        this.scrollTo(0, scrollYY)
     }
 })
 window.addEventListener('scroll', function () {
