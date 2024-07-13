@@ -11,7 +11,9 @@ async function fetchImagesFromUl(url, ulId, acture = '') {
     liens.push(url)
     let lengthTab2 = liens.length
 
-    if (lengthTab1 < lengthTab2)  {
+    if (lengthTab1 < lengthTab2) {
+        lengthTab2 = 0
+        lengthTab1 = 0
         sx.push(window.scrollY)
         window.scrollTo(0, 0)
 
@@ -70,12 +72,12 @@ async function fetchImagesFromUl(url, ulId, acture = '') {
 
         addEventListenerImage()
         if (lengthTab1 > lengthTab2) {
+            lengthTab2 = 0
+            lengthTab1 = 0
+            window.scrollTo(0, sx[sx.length - 1])
+            sx.splice(sx.length - 1, 1)
 
-                console.log( sx[sx.length - 1]);
-                window.scrollTo(0, sx[sx.length - 1])
-                sx.splice(sx.length - 1, 1)
-
-        } 
+        }
     } catch (error) {
         console.error(`Failed to fetch the page: ${error}`);
     }
