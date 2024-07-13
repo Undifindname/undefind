@@ -4,13 +4,19 @@ let previus = document.querySelector('#previus')
 let btnPrevius = document.querySelector('.btn-previus')
 let description = document.querySelector('#description')
 let sx = []
-let lengthTab1 =0
+let lengthTab1 = 0
 async function fetchImagesFromUl(url, ulId, acture = '') {
 
 
     liens.push(url)
-
     let lengthTab2 = liens.length
+
+    if (lengthTab1 < lengthTab2)  {
+        sx.push(window.scrollY)
+        window.scrollTo(0, 0)
+
+
+    }
     if (liens.length >= 2) {
         btnPrevius.style.opacity = 1
         btnPrevius.style.position = 'relative'
@@ -18,17 +24,7 @@ async function fetchImagesFromUl(url, ulId, acture = '') {
         btnPrevius.style.opacity = 0
         btnPrevius.style.position = 'absolute'
     }
-    if (lengthTab1 > lengthTab2) {
 
-        window.scrollTo(0, sx[sx.length-1])
-        sx.splice(sx.length-1,1)
-
-    } else {
-        sx.push(window.scrollY)
-        window.scrollTo(0, 0)
-
-
-    }
     if (acture == '') {
         description.innerText = ''
 
@@ -71,7 +67,15 @@ async function fetchImagesFromUl(url, ulId, acture = '') {
             img.classList = 'img'
             container.appendChild(img)
         });
+
         addEventListenerImage()
+        if (lengthTab1 > lengthTab2) {
+
+                console.log( sx[sx.length - 1]);
+                window.scrollTo(0, sx[sx.length - 1])
+                sx.splice(sx.length - 1, 1)
+
+        } 
     } catch (error) {
         console.error(`Failed to fetch the page: ${error}`);
     }
