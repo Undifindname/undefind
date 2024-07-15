@@ -5,7 +5,7 @@ let btnPrevius = document.querySelector('.btn-previus')
 let description = document.querySelector('#description')
 let sx = []
 let lengthTab1 = 0
-async function fetchImagesFromUl(url, ulId, acture = '') {
+async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
 
 
     liens.push(url)
@@ -39,8 +39,16 @@ async function fetchImagesFromUl(url, ulId, acture = '') {
         const doc = parser.parseFromString(text, 'text/html');
         const ulElement = doc.querySelector(`ul.${ulId}`);
         if (!ulElement) {
-            console.log(`No <ul> element with id "${ulId}" found.`);
-            return;
+            let keyWord1 = keyWords.split(' ')[0]
+            let keyWord2 = keyWords.split(' ')[1]
+            if (url.split('/')[3] == keyWord1) {
+                let url = `https://www.pornpics.de/${keyWord1+'-'+keyWord2}/`
+                fetchImagesFromUl(url, 'wookmark-initialised');
+            } else {
+                console.log(`No <ul> element with id "${ulId}" found.`);
+                return;
+            }
+         
         }
         const imgTags = ulElement.querySelectorAll('img');
         imgTags.forEach(img => {
@@ -95,6 +103,7 @@ btns.forEach(btn => {
 })
 home.addEventListener('click', () => {
     liens.splice(0, liens.length)
+    sx.splice(0, liens.length)
     categorie = ''
     fetchImagesFromUl(`https://www.pornpics.de/`, 'wookmark-initialised');
 })
@@ -131,9 +140,10 @@ function mored(alt, src) {
         fetchImagesFromUl(`https://www.pornpics.de/galleries/${identifienrIMG}`, 'wookmark-initialised', 'acture');
     } else {
         let newalt = newAlt.split(' ')[0]
+        console.log(newalt);
         categorie = newalt
         let url = `https://www.pornpics.de/${newalt}/`
-        fetchImagesFromUl(url, 'wookmark-initialised', '');
+        fetchImagesFromUl(url, 'wookmark-initialised', '', `${newAlt.split(' ')[0]} ${newAlt.split(' ')[1]}`);
     }
 }
 
