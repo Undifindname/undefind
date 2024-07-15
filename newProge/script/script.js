@@ -42,7 +42,8 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
             let keyWord1 = keyWords.split(' ')[0]
             let keyWord2 = keyWords.split(' ')[1]
             if (url.split('/')[3] == keyWord1) {
-                let url = `https://www.pornpics.de/${keyWord1+'-'+keyWord2}/`
+                categorie = keyWord1+'-'+keyWord2;
+                let url = `https://www.pornpics.de/${categorie}/`
                 fetchImagesFromUl(url, 'wookmark-initialised');
             } else {
                 console.log(`No <ul> element with id "${ulId}" found.`);
