@@ -39,7 +39,6 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
             let keyWord2 = keyWords.split(' ')[1]
             if (url.split('/')[3] == keyWord1) {
                 let url = `https://www.pornpics.de/${keyWord1+'-'+keyWord2}/`
-                console.log(url);
                 fetchImagesFromUl(url, 'wookmark-initialised');
             } else {
                 console.log(`No <ul> element with id "${ulId}" found.`);
@@ -150,13 +149,11 @@ function mored(alt,dataSrc) {
         description.style.textTransform = 'capitalize'
         let identifienrIMG = dataSrc
         let url = `https://www.pornpics.de/galleries/${identifienrIMG}`
-        console.log(url);
         fetchImagesFromUl(url, 'wookmark-initialised', 'acture');
     } else {
         
         categorie = dataSrc
         let url = `https://www.pornpics.de/${categorie}/`
-        console.log(url);
 
         fetchImagesFromUl(url, 'wookmark-initialised');
     }
