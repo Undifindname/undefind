@@ -22,7 +22,7 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         btnPrevius.style.opacity = 0
         btnPrevius.style.position = 'absolute'
     }
-    if(url.split('/')[3]!='galleries'){
+    if (url.split('/')[3] != 'galleries') {
         description.innerText = ''
 
     };
@@ -34,30 +34,30 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         const doc = parser.parseFromString(text, 'text/html');
         const ulElement = doc.querySelector(`ul.${ulId}`);
         if (!ulElement) {
-           
+
             let keyWord1 = keyWords.split(' ')[0]
             let keyWord2 = keyWords.split(' ')[1]
             if (url.split('/')[3] == keyWord1) {
-                let url = `https://www.pornpics.de/${keyWord1+'-'+keyWord2}/`
+                let url = `https://www.pornpics.de/${keyWord1 + '-' + keyWord2}/`
                 fetchImagesFromUl(url, 'wookmark-initialised');
             } else {
                 console.log(`No <ul> element with id "${ulId}" found.`);
                 return;
             }
-         
+
         }
         const imgTags = ulElement.querySelectorAll('img');
         const allA = ulElement.querySelectorAll(`ul.${ulId} a`);
         let aHref = []
-        allA.forEach(a=>{
-            if(a.href.split('/')[4].length>3){
+        allA.forEach(a => {
+            if (a.href.split('/')[4].length > 3) {
                 let href = a.href.split('/')[4]
                 aHref.push(href)
-            }else{
+            } else {
                 let href = a.href.split('/')[3]
                 aHref.push(href)
             }
-         
+
         })
 
         imgTags.forEach(img => {
@@ -76,14 +76,14 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
             }
         });
         container.innerHTML = ''
-        imgUrls.forEach((imgUrl,index) => {
+        imgUrls.forEach((imgUrl, index) => {
             let img = document.createElement('img');
             img.src = imgUrl.src
             img.alt = imgUrl.alt
             img.style.width = imgUrl.width + 'px'
             img.style.height = imgUrl.height + 'px'
             img.alt = imgUrl.alt
-            img.setAttribute('data-src' ,aHref[index])
+            img.setAttribute('data-src', aHref[index])
             img.classList = 'img'
             container.appendChild(img)
         });
@@ -96,6 +96,10 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
             sx.splice(sx.length - 1, 1)
 
         }
+
+
+        styleTf();
+
     } catch (error) {
         console.error(`Failed to fetch the page: ${error}`);
     }
@@ -119,7 +123,7 @@ home.addEventListener('click', () => {
 })
 previus.addEventListener('click', () => {
     lengthTab1 = liens.length
-    if(lengthTab1==2){
+    if (lengthTab1 == 2) {
         categorie = ''
 
     };
@@ -138,12 +142,12 @@ function addEventListenerImage() {
             img.addEventListener('click', () => {
                 let content = img.alt;
                 let dataSrc = img.getAttribute('data-src')
-                mored(content,dataSrc)
+                mored(content, dataSrc)
             })
         })
     }, 1000)
 }
-function mored(alt,dataSrc) {
+function mored(alt, dataSrc) {
     if (categorie != '') {
         description.innerText = alt
         description.style.textTransform = 'capitalize'
@@ -151,7 +155,7 @@ function mored(alt,dataSrc) {
         let url = `https://www.pornpics.de/galleries/${identifienrIMG}`
         fetchImagesFromUl(url, 'wookmark-initialised', 'acture');
     } else {
-        
+
         categorie = dataSrc
         let url = `https://www.pornpics.de/${categorie}/`
 
@@ -167,3 +171,75 @@ window.addEventListener('load', function () {
 window.addEventListener('scroll', function () {
     sessionStorage.setItem('scrolY', this.scrollY)
 })
+
+
+
+function getSpaceEntreDeuxElement(Element1, Element2) {
+    Element1 = Element1.getBoundingClientRect();
+    Element2 = Element2.getBoundingClientRect();
+    let space = -(Element2.top - Element1.bottom - 5) + 'px'
+    return space
+}
+
+
+function getImges() {
+    let images = document.querySelectorAll('img')
+    let elementLine = 0;
+    let currentTop = null;
+    images.forEach((Element, index) => {
+        let image = images[index].getBoundingClientRect();
+        let nextLi = images[index].getBoundingClientRect().top;
+
+        if (currentTop === null) {
+            currentTop = image.top;
+        }
+
+        if (currentTop == nextLi) {
+            elementLine++
+        } else {
+            const space = getSpaceEntreDeuxElement(images[index - elementLine], Element)
+            images[index].style.transform = `translate(0,${(space)})`
+        }
+    })
+
+
+}
+
+
+function removeTranslate() {
+    let images = document.querySelectorAll('img')
+    let elementLine = 0
+    let currentTop = null
+
+    images.forEach((Element, index) => {
+        let image = images[index].getBoundingClientRect();
+        let nextLi = images[index].getBoundingClientRect().top;
+        if (currentTop === null) {
+            currentTop = image.top;
+        }
+
+        if (currentTop == nextLi) {
+            elementLine++
+        } else {
+            images[index].style.removeProperty('transform')
+        }
+    })
+
+}
+
+window.addEventListener('resize', () => {
+    removeTranslate()
+    getImges()
+
+})
+
+
+function styleTf() {
+    setTimeout(() => {
+
+        removeTranslate()
+        getImges()
+
+    }, 600)
+
+}
