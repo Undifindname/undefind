@@ -5,7 +5,10 @@ let btnPrevius = document.querySelector('.btn-previus')
 let description = document.querySelector('#description')
 let sx = []
 let lengthTab1 = 0
+var statuss = 200
+let categorie = ''
 async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
+
     liens.push(url)
     let lengthTab2 = liens.length
     if (lengthTab1 < lengthTab2) {
@@ -41,11 +44,22 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
                 let url = `https://www.pornpics.de/${keyWord1 + '-' + keyWord2}/`
                 fetchImagesFromUl(url, 'wookmark-initialised');
             } else {
-                console.log(`No <ul> element with id "${ulId}" found.`);
-                return;
+                if (statuss == 200) {
+
+                    let urlf = `https://www.pornpics.de/tags/${url.split('/')[3]}/`
+                    fetchImagesFromUl(urlf, 'wookmark-initialised');
+                    statuss = 404
+
+                } else {
+                    statuss == 200
+                    console.log(`No <ul> element with id "${ulId}" found.`);
+                    return;
+                }
+
             }
 
         }
+        statuss == 200
         const imgTags = ulElement.querySelectorAll('img');
         const allA = ulElement.querySelectorAll(`ul.${ulId} a`);
         let aHref = []
@@ -65,6 +79,7 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
             const imgAlt = img.getAttribute('alt');
             const imgwidth = img.getAttribute('width');
             const imgheight = img.getAttribute('height');
+
             if (imgUrl && imgAlt) {
                 let infoImg = {
                     src: imgUrl,
@@ -77,18 +92,51 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         });
         container.innerHTML = ''
         imgUrls.forEach((imgUrl, index) => {
+            let div = document.createElement('div');
+
+
             let img = document.createElement('img');
             img.src = imgUrl.src
             img.alt = imgUrl.alt
             img.style.width = imgUrl.width + 'px'
             img.style.height = imgUrl.height + 'px'
+
+            div.style.width = imgUrl.width + 'px'
+            div.style.height = imgUrl.height + 'px'
+
+
             img.alt = imgUrl.alt
+            img.id = `IMG${index}`
             img.setAttribute('data-src', aHref[index])
-            img.classList = 'img'
-            container.appendChild(img)
+
+            if (url.slice(0, 33) !== "https://www.pornpics.de/galleries") {
+                img.addEventListener('click', () => {
+                    let content = img.alt;
+                    let dataSrc = img.getAttribute('data-src')
+                    mored(content, dataSrc)
+                })
+            } else {
+                img.addEventListener('click', () => {
+                    window.open(imgUrl.src , "_blank")
+                })
+            }
+
+
+            div.classList = 'img div-img bg-danger'
+            div.appendChild(img)
+
+            if (categorie === '') {
+                let p = document.createElement('p');
+                p.innerText = imgUrl.alt.split(' ')[0]
+                p.classList = 'info-img'
+                div.appendChild(p)
+
+            }
+
+            container.appendChild(div)
+
         });
 
-        addEventListenerImage()
         if (lengthTab1 > lengthTab2) {
             lengthTab2 = 0
             lengthTab1 = 0
@@ -98,20 +146,55 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         }
 
 
-        styleTf();
 
     } catch (error) {
-        console.error(`Failed to fetch the page: ${error}`);
+
+        function checkInternetConnection() {
+            return fetch("https://www.google.com", { mode: 'no-cors' })
+                .then(() => true)
+                .catch(() => false);
+        }
+
+        checkInternetConnection().then(isConnected => {
+            if (isConnected) {
+                console.log(error);
+            } else {
+                document.querySelector('#error').innerText = "'auchun access internite'"
+                document.querySelector('#error').style.backgroundColor = 'gainsboro'
+                document.querySelector('#error').style.color = '#4c1a3a'
+                document.querySelector('#error').style.textAlign = 'center'
+                for (let index = 0; index < 50; index++) {
+
+
+                }
+                let px = 0
+                let interval = setInterval(() => {
+                    px++
+                    document.querySelector('#error').style.padding = px + 'px'
+                    clearIntervale(px)
+                }, 10);
+                function clearIntervale(px) {
+                    if (px == 5) {
+                        clearInterval(interval)
+                    }
+                }
+
+                console.error(`Failed to fetch the page: ${error}`);
+
+
+            }
+        });
     }
 }
-let categorie = ''
 fetchImagesFromUl('https://www.pornpics.de/', 'wookmark-initialised');
+
 let btns = document.querySelectorAll('.navbar-nav .btn')
 let home = document.querySelector('#home')
 btns.forEach(btn => {
     btn.addEventListener('click', () => {
         let content = btn.innerText;
         categorie = content
+        document.querySelector('title').innerText = categorie
         fetchImagesFromUl(`https://www.pornpics.de/${content}/`, 'wookmark-initialised');
     })
 })
@@ -119,12 +202,18 @@ home.addEventListener('click', () => {
     liens.splice(0, liens.length)
     sx.splice(0, liens.length)
     categorie = ''
+    document.querySelector('title').innerText = "Best Images"
     fetchImagesFromUl(`https://www.pornpics.de/`, 'wookmark-initialised');
 })
 previus.addEventListener('click', () => {
     lengthTab1 = liens.length
     if (lengthTab1 == 2) {
         categorie = ''
+        document.querySelector('title').innerText = "Best Images"
+
+
+    } else {
+        document.querySelector('title').innerText = categorie
 
     };
 
@@ -135,28 +224,23 @@ previus.addEventListener('click', () => {
     fetchImagesFromUl(Nurl, 'wookmark-initialised');
 })
 
-function addEventListenerImage() {
-    setTimeout(function () {
-        let imgs = document.querySelectorAll('img')
-        imgs.forEach(img => {
-            img.addEventListener('click', () => {
-                let content = img.alt;
-                let dataSrc = img.getAttribute('data-src')
-                mored(content, dataSrc)
-            })
-        })
-    }, 1000)
-}
 function mored(alt, dataSrc) {
     if (categorie != '') {
+        document.querySelector('title').innerText = categorie
+
         description.innerText = alt
+        document.querySelector('title').innerText = alt
+
         description.style.textTransform = 'capitalize'
         let identifienrIMG = dataSrc
         let url = `https://www.pornpics.de/galleries/${identifienrIMG}`
+
         fetchImagesFromUl(url, 'wookmark-initialised', 'acture');
     } else {
 
         categorie = dataSrc
+        document.querySelector('title').innerText = categorie
+
         let url = `https://www.pornpics.de/${categorie}/`
 
         fetchImagesFromUl(url, 'wookmark-initialised');
@@ -171,75 +255,17 @@ window.addEventListener('load', function () {
 window.addEventListener('scroll', function () {
     sessionStorage.setItem('scrolY', this.scrollY)
 })
-
-
-
-function getSpaceEntreDeuxElement(Element1, Element2) {
-    Element1 = Element1.getBoundingClientRect();
-    Element2 = Element2.getBoundingClientRect();
-    let space = -(Element2.top - Element1.bottom - 5) + 'px'
-    return space
+function hidNavBAR() {
+    const navbarNavAltMarkup = document.querySelector('#navbarNavAltMarkup')
+    const navbar_toggler  = document.querySelector('.navbar-toggler ')
+    navbarNavAltMarkup.classList.remove('show')
+    navbar_toggler.classList.add('collapsed')
+    navbar_toggler.ariaExpanded = false
 }
 
-
-function getImges() {
-    let images = document.querySelectorAll('img')
-    let elementLine = 0;
-    let currentTop = null;
-    images.forEach((Element, index) => {
-        let image = images[index].getBoundingClientRect();
-        let nextLi = images[index].getBoundingClientRect().top;
-
-        if (currentTop === null) {
-            currentTop = image.top;
-        }
-
-        if (currentTop == nextLi) {
-            elementLine++
-        } else {
-            const space = getSpaceEntreDeuxElement(images[index - elementLine], Element)
-            images[index].style.transform = `translate(0,${(space)})`
-        }
+const navbarBtn = document.querySelectorAll('.navbar-nav button')
+navbarBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        hidNavBAR()
     })
-
-
-}
-
-
-function removeTranslate() {
-    let images = document.querySelectorAll('img')
-    let elementLine = 0
-    let currentTop = null
-
-    images.forEach((Element, index) => {
-        let image = images[index].getBoundingClientRect();
-        let nextLi = images[index].getBoundingClientRect().top;
-        if (currentTop === null) {
-            currentTop = image.top;
-        }
-
-        if (currentTop == nextLi) {
-            elementLine++
-        } else {
-            images[index].style.removeProperty('transform')
-        }
-    })
-
-}
-
-window.addEventListener('resize', () => {
-    removeTranslate()
-    getImges()
-
 })
-
-
-function styleTf() {
-    setTimeout(() => {
-
-        removeTranslate()
-        getImges()
-
-    }, 600)
-
-}
