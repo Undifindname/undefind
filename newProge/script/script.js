@@ -1,7 +1,7 @@
 let container = document.querySelector('#container')
 const liens = []
-let previus = document.querySelector('#previus')
-let btnPrevius = document.querySelector('.btn-previus')
+let previus = document.querySelector('#mydiv')
+let btnPrevius = document.querySelector('#mydivheader')
 let description = document.querySelector('#description')
 let sx = []
 let lengthTab1 = 0
@@ -36,6 +36,7 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
         const ulElement = doc.querySelector(`ul.${ulId}`);
+        
         if (!ulElement) {
 
             let keyWord1 = keyWords.split(' ')[0]
@@ -61,6 +62,7 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         }
         statuss == 200
         const imgTags = ulElement.querySelectorAll('img');
+        
         const allA = ulElement.querySelectorAll(`ul.${ulId} a`);
         let aHref = []
         allA.forEach(a => {
@@ -75,6 +77,7 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         })
 
         imgTags.forEach(img => {
+            
             const imgUrl = img.getAttribute('data-src');
             const imgAlt = img.getAttribute('alt');
             const imgwidth = img.getAttribute('width');
@@ -87,11 +90,13 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
                     width: imgwidth,
                     height: imgheight,
                 }
+                
                 imgUrls.push(infoImg);
             }
         });
         container.innerHTML = ''
         imgUrls.forEach((imgUrl, index) => {
+            
             let div = document.createElement('div');
 
 
@@ -186,7 +191,39 @@ async function fetchImagesFromUl(url, ulId, acture = '', keyWords = '') {
         });
     }
 }
-fetchImagesFromUl('https://www.pornpics.de/', 'wookmark-initialised');
+
+let conected = false
+if (conected) {
+
+    let cat = ["Home", "solo", "pussy", "shower", "tattoo", "lesbian", "orgasm", "cowgirl", "cum-in-pussy", "tribbing"]
+    let index = Math.random() * 10
+    let cate = ''
+    if (index < 10) {
+        cate = cat[parseInt(index)]
+
+    } else {
+        cate = cat[parseInt(index - 1)]
+
+    }
+    document.querySelector('title').innerText = cate
+
+    if (cate == "Home") {
+        fetchImagesFromUl(`https://www.pornpics.de/`, `wookmark-initialised`);
+
+    } else {
+        fetchImagesFromUl(`https://www.pornpics.de/${cate}/`, `wookmark-initialised`);
+
+    }
+} else {
+    fetchImagesFromUl('https://www.pornpics.de', 'wookmark-initialised');
+
+}
+
+
+
+
+
+
 
 let btns = document.querySelectorAll('.navbar-nav .btn')
 let home = document.querySelector('#home')
@@ -224,6 +261,8 @@ previus.addEventListener('click', () => {
     fetchImagesFromUl(Nurl, 'wookmark-initialised');
 })
 
+
+
 function mored(alt, dataSrc) {
     if (categorie != '') {
         document.querySelector('title').innerText = categorie
@@ -255,17 +294,24 @@ window.addEventListener('load', function () {
 window.addEventListener('scroll', function () {
     sessionStorage.setItem('scrolY', this.scrollY)
 })
+
+
+
+1
 function hidNavBAR() {
-    const navbarNavAltMarkup = document.querySelector('#navbarNavAltMarkup')
-    const navbar_toggler  = document.querySelector('.navbar-toggler ')
+    const navbarNavAltMarkup = document.querySelectorAll('#navbarNavAltMarkup')
     navbarNavAltMarkup.classList.remove('show')
-    navbar_toggler.classList.add('collapsed')
-    navbar_toggler.ariaExpanded = false
+    btn1.classList.add("collapsed")
+    console.log(btn1);
+
 }
+
 
 const navbarBtn = document.querySelectorAll('.navbar-nav button')
 navbarBtn.forEach(btn => {
     btn.addEventListener('click', () => {
         hidNavBAR()
+        
+
     })
 })
