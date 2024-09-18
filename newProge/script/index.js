@@ -1,62 +1,43 @@
-document.addEventListener('DOMContentLoaded', function () {
-    function getSpaceEntreDeuxElement(Element1, Element2) {
-        Element1 = Element1.getBoundingClientRect();
-        Element2 = Element2.getBoundingClientRect();
-        let space = -(Element2.top - Element1.bottom - 5) + 'px'
-        return space
-    }
+// Make the DIV element draggable:
+dragElement(document.getElementById("mydiv"));
 
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
 
-    function getImges() {
-        let images = document.querySelectorAll('img')
-        let elementLine = 0;
-        let currentTop = null;
-        images.forEach((Element, index) => {
-            let image = images[index].getBoundingClientRect();
-            let nextLi = images[index].getBoundingClientRect().top;
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
 
-            if (currentTop === null) {
-                currentTop = image.top;
-            }
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
 
-            if (currentTop == nextLi) {
-                elementLine++
-            } else {
-                const space = getSpaceEntreDeuxElement(images[index - elementLine], Element)
-                images[index].style.transform = `translate(0,${(space)})`
-            }
-        })
-
-
-    }
-    setTimeout(() => {
-        getImges()
-    }, 700)
-
-    function removeTranslate() {
-        let images = document.querySelectorAll('img')
-        let elementLine =0
-        let currentTop = null
-
-        images.forEach((Element, index) => {
-            let image = images[index].getBoundingClientRect();
-            let nextLi = images[index].getBoundingClientRect().top;
-            if (currentTop === null) {
-                currentTop = image.top;
-            }
-
-            if (currentTop == nextLi) {
-                elementLine++
-            } else {
-                images[index].style.removeProperty('transform')                
-            }
-        })
-
-    }
-
-    window.addEventListener('resize', () => {
-        removeTranslate()
-        getImges()
-
-    })
-})
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
